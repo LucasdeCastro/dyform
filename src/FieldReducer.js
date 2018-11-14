@@ -14,7 +14,7 @@ const fieldsReducer = (state, props) => {
 
   switch (fieldType) {
     case FIELD_TYPE.WORKFLOW:
-      if (item.values.find(workflowFinder(values[item.key]))) {
+      if (item.values.find(workflowFinder(values, item))) {
         return {
           ...state,
           result: result.concat(
@@ -35,7 +35,7 @@ const fieldsReducer = (state, props) => {
             ...item.props,
             key: `${formName}-container-group-${item.name}`,
             fields: group.map(
-              field =>
+              ({ name, ...field }) =>
                 fieldsReducer(
                   { ...state, result: [] },
                   { ...field, parentName: item.name }

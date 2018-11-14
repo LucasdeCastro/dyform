@@ -66,7 +66,6 @@ const FormTemplate = new DyForm(
   {
     passwordEqual: messages => (_, props) => {
       const form = typeof props.password === "object" ? props.password : props;
-
       if (!form.password) return messages.emptyPassword;
       if (!form.confirm) return messages.emptyCofirm;
       if (form.confirm !== form.password) return messages.passwordNotEqual;
@@ -162,20 +161,36 @@ const Profile = FormTemplate.create("profile")
     }
   )
   .clearButton(click => <button onClick={click}>clear</button>)
-  .workFlow({
-    name: "gender",
-    values: ["M"],
-    fields: [
-      {
-        name: "password",
-        type: "container",
-        group: Password.getFields().map(field => ({
-          ...field,
-          key: field.name
-        }))
-      }
-    ]
-  })
+  .workflow([
+    {
+      name: "gender",
+      values: ["M"],
+      fields: [
+        {
+          name: "password",
+          type: "container",
+          group: Password.getFields().map(field => ({
+            ...field,
+            key: field.name
+          }))
+        }
+      ]
+    },
+    {
+      name: "password",
+      values: [(...props) => console.log("PROPS", props) || false],
+      fields: [
+        {
+          name: "email",
+          type: "input",
+          props: {
+            placeholder: "E-mail"
+          },
+          validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
+        }
+      ]
+    }
+  ])
   .setInitialValues({ email: "lucascastro102@gmail.com", gender: "M" })
   .onSubmit(form => console.log("ON SUBMIT FORM TOWN", form));
 

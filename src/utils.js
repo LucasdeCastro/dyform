@@ -21,9 +21,9 @@ export const mapValidators = baseValidators => validator => {
   throw new Error("validator should be a function or object");
 };
 
-export const workflowFinder = value => item => {
-  if (typeof item === "function") return item(value);
-  return item === value;
+export const workflowFinder = (value, field) => item => {
+  if (typeof item === "function") return item(value, field);
+  return item === value[field.key];
 };
 
 export const mapFields = (baseFields, baseValidators) => field => {
@@ -62,4 +62,50 @@ export const mapFields = (baseFields, baseValidators) => field => {
 export const getFieldName = ({ parentName, ...field }) => {
   if (parentName) return getFieldName({ name: parentName, ...field });
   return field.key ? `${field.name}[${field.key}]` : field.name;
+};
+
+export const reducerWorkflows = (
+  fields,
+  baseComponents,
+  baseValidators,
+  saveFieldName,
+  [workflow, ...workflows]
+) => {
+  if (!workflow) return fields;
+  const { name, values, fields: workflowFields } = workflow;
+
+  const newFields = fields.reduce((state, field) => {
+    const fieldNameMatch =
+      field.fieldType === FIELD_TYPE.WORKFLOW
+        ? field.key === name
+        : field.name === name;
+
+    if (field.fieldType === FIELD_TYPE.WORKFLOW) saveFieldName(field.key);
+    else saveFieldName(field.name);
+
+    if (fieldNameMatch) {
+      return state.concat(field, {
+        fieldType: FIELD_TYPE.WORKFLOW,
+        key: name,
+        values,
+        fields: reducerWorkflows(
+          workflowFields.map(mapFields(baseComponents, baseValidators)),
+          baseComponents,
+          baseValidators,
+          saveFieldName,
+          workflows
+        )
+      });
+    }
+
+    return state.concat(field);
+  }, []);
+
+  return reducerWorkflows(
+    newFields,
+    baseComponents,
+    baseValidators,
+    saveFieldName,
+    workflows
+  );
 };

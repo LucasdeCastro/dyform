@@ -2,7 +2,7 @@ import React, { createFactory } from "react";
 import { connect } from "react-redux";
 import { reduxForm, formValueSelector } from "redux-form";
 import FormComponent from "./FormComponent";
-import { compose, mapFields } from "./utils";
+import { compose, mapFields, reducerWorkflows } from "./utils";
 
 class Form {
   constructor(formName, baseComponents, baseButtons, baseValidators) {
@@ -19,36 +19,13 @@ class Form {
     this._onSubmit = () => {
       throw new Error("onSubmit action is not defined");
     };
-
-    const formSelector = formValueSelector(this.name);
-
-    const formEnhance = compose(
-      BaseComponent => props =>
-        createFactory(BaseComponent)({
-          ...props,
-          initialValues: this._initialValues
-        }),
-      reduxForm({ form: this.name }),
-      connect(state => ({
-        values: formSelector(state, ...this._names) || {}
-      }))
-    );
-
-    this.build = formEnhance(props => (
-      <FormComponent
-        {...props}
-        formName={this.name}
-        fields={this.getFields()}
-        onSubmit={this._onSubmit}
-        buttons={this.baseButtons}
-        showClearButton={this._clearButton}
-      />
-    ));
   }
 
   addField = field => {
     if (!field.type) throw new Error("type should not be empty");
     if (!field.name) throw new Error("name should not be empty");
+    if (this._names.includes(field.name))
+      throw new Error("field name must be unique");
 
     this._names.push(field.name);
     this._fields.push(
@@ -76,35 +53,57 @@ class Form {
     return this;
   };
 
-  workFlow = ({ name, values, fields }) => {
-    if (!Array.isArray(fields)) throw new Error("Prop fields must be an array");
-
-    this._fields = this._fields.reduce((state, field) => {
-      if (field.name === name) {
-        return state.concat(field, {
-          fieldType: "workflow",
-          key: name,
-          values,
-          fields: fields.map(
-            mapFields(this.baseComponents, this.baseValidators)
-          )
-        });
-      }
-
-      return state.concat(field);
-    }, []);
-
+  workflow = workflow => {
+    this._fields = reducerWorkflows(
+      this._fields,
+      this.baseComponents,
+      this.baseValidators,
+      this._addFieldsNames,
+      Array.isArray(workflow) ? workflow : [workflow]
+    );
     return this;
   };
 
-  setInitialValues(obj) {
+  _addFieldsNames = name => {
+    if (!this._names.includes(name)) this._names.push(name);
+  };
+
+  setInitialValues = obj => {
     this._initialValues = obj;
     return this;
-  }
+  };
 
-  getFields() {
+  getFields = () => {
     return this._fields.concat();
-  }
+  };
+
+  build = () => {
+    const formSelector = formValueSelector(this.name);
+    const formEnhance = compose(
+      BaseComponent => props =>
+        createFactory(BaseComponent)({
+          ...props,
+          initialValues: this._initialValues
+        }),
+      reduxForm({ form: this.name }),
+      connect(state => ({
+        values: formSelector(state, ...this._names) || {}
+      }))
+    );
+
+    const Builded = formEnhance(props => (
+      <FormComponent
+        {...props}
+        formName={this.name}
+        fields={this.getFields()}
+        onSubmit={this._onSubmit}
+        buttons={this.baseButtons}
+        showClearButton={this._clearButton}
+      />
+    ));
+
+    return <Builded />;
+  };
 }
 
 export default Form;
