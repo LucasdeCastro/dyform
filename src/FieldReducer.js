@@ -8,8 +8,9 @@ export const FIELD_TYPE = {
   DEFUALT: "default"
 };
 
-const fieldsReducer = (state, { fieldType, group, ...item }) => {
+const fieldsReducer = (state, props) => {
   const { formName, values = {}, result } = state;
+  const { fieldType, group, parentName, ...item } = props;
 
   switch (fieldType) {
     case FIELD_TYPE.WORKFLOW:
@@ -51,7 +52,7 @@ const fieldsReducer = (state, { fieldType, group, ...item }) => {
           <Field
             {...item}
             key={`${formName}-field-${item.name}`}
-            name={getFieldName(item)}
+            name={getFieldName(props)}
           />
         )
       };

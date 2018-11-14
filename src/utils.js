@@ -32,13 +32,23 @@ export const mapFields = (baseFields, baseValidators) => field => {
   field.validate = (field.validate || []).map(mapValidators(baseValidators));
 
   if (field.group) {
-    field.group = field.group.map(group => ({
-      ...group,
-      component: baseFields[group.type]
-    }));
+    field.group = field.group.map(group => {
+      if (!baseFields[group.type]) {
+        throw new Error(
+          `The field type(${group.type}) inside the group not exist`
+        );
+      }
+
+      return {
+        ...group,
+        component: baseFields[group.type]
+      };
+    });
   }
 
   if (!field.component) {
+    if (!baseFields[field.type])
+      throw new Error(`The field type(${field.type}) not exist`);
     return {
       ...field,
       fieldType,
@@ -49,7 +59,7 @@ export const mapFields = (baseFields, baseValidators) => field => {
   return { ...field, fieldType };
 };
 
-export const getFieldName = field => {
-  if (field.key && field.parentName) return `${field.parentName}[${field.key}]`;
+export const getFieldName = ({ parentName, ...field }) => {
+  if (parentName) return getFieldName({ name: parentName, ...field });
   return field.key ? `${field.name}[${field.key}]` : field.name;
 };

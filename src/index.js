@@ -65,9 +65,11 @@ const FormTemplate = new DyForm(
   { submit: () => <button type={"submit"}>Save</button> },
   {
     passwordEqual: messages => (_, props) => {
-      if (!props.password) return messages.emptyPassword;
-      if (!props.confirm) return messages.emptyCofirm;
-      if (props.confirm !== props.password) return messages.passwordNotEqual;
+      const form = typeof props.password === "object" ? props.password : props;
+
+      if (!form.password) return messages.emptyPassword;
+      if (!form.confirm) return messages.emptyCofirm;
+      if (form.confirm !== form.password) return messages.passwordNotEqual;
       return true;
     }
   }
@@ -184,6 +186,21 @@ const App = () => (
       <Profile.build />
       <h3>Password</h3>
       <Password.build />
+
+      <FormTemplate.component
+        name={"form"}
+        fields={[
+          {
+            name: "email",
+            type: "input",
+            props: {
+              placeholder: "E-mail"
+            },
+            validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
+          }
+        ]}
+        onSubmit={e => console.log("E", e)}
+      />
     </div>
   </Provider>
 );
