@@ -21,13 +21,24 @@ class Form {
     };
   }
 
+  _saveFieldName = name => {
+    if (!this._names.includes(name)) {
+      return this._names.push(name);
+    }
+    throw new Error(`field name(${name}) must be unique`);
+  };
+
   addField = field => {
     if (!field.type) throw new Error("type should not be empty");
     if (!field.name) throw new Error("name should not be empty");
-    if (this._names.includes(field.name))
-      throw new Error("field name must be unique");
+    this._saveFieldName(field.name);
 
-    this._names.push(field.name);
+    if (field.group) {
+      field.group.forEach(
+        fieldGroup => fieldGroup.name && this._saveFieldName(fieldGroup.name)
+      );
+    }
+
     this._fields.push(
       mapFields(this.baseComponents, this.baseValidators)(field)
     );
@@ -54,18 +65,23 @@ class Form {
   };
 
   workflow = workflow => {
+    const workflowArr = Array.isArray(workflow) ? workflow : [workflow];
+    workflowArr
+      .reduce((acc, wok) => {
+        const result = wok.fields.filter(wokFiel => !!wokFiel.group);
+        return result.length > 0 ? acc.concat(result) : acc;
+      }, [])
+      .map(
+        fieldGroup => fieldGroup.name && this._saveFieldName(fieldGroup.name)
+      );
+
     this._fields = reducerWorkflows(
       this._fields,
       this.baseComponents,
       this.baseValidators,
-      this._addFieldsNames,
-      Array.isArray(workflow) ? workflow : [workflow]
+      workflowArr
     );
     return this;
-  };
-
-  _addFieldsNames = name => {
-    if (!this._names.includes(name)) this._names.push(name);
   };
 
   setInitialValues = obj => {
@@ -78,6 +94,7 @@ class Form {
   };
 
   build = () => {
+    console.log(this._names);
     const formSelector = formValueSelector(this.name);
     const formEnhance = compose(
       BaseComponent => props =>

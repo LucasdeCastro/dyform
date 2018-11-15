@@ -10,7 +10,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 const rootReducer = combineReducers({
   form: formReducer
 });
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer, applyMiddleware());
 
 // TEMPLATE COMPONENTS
 const renderInput = ({ input, meta, ...field }) => (
@@ -158,6 +158,28 @@ const Profile = FormTemplate.create("profile")
         placeholder: "Gosto"
       },
       validate: [{ name: "required", message: "O gosto é obrigatoria" }]
+    },
+    {
+      name: "custom",
+      type: "container",
+      group: [
+        {
+          name: "email1",
+          type: "input",
+          props: {
+            placeholder: "E-mail"
+          },
+          validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
+        },
+        {
+          name: "email2",
+          type: "input",
+          props: {
+            placeholder: "E-mail"
+          },
+          validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
+        }
+      ]
     }
   )
   .clearButton(click => <button onClick={click}>clear</button>)
@@ -178,13 +200,13 @@ const Profile = FormTemplate.create("profile")
     },
     {
       name: "password",
-      values: [(...props) => console.log("PROPS", props) || false],
+      values: [props => props.password && props.password.confirm === "1234"],
       fields: [
         {
           name: "email",
           type: "input",
           props: {
-            placeholder: "E-mail"
+            placeholder: "E-mail 2"
           },
           validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
         }
@@ -199,23 +221,6 @@ const App = () => (
     <div>
       <h3>My FORM</h3>
       <Profile.build />
-      <h3>Password</h3>
-      <Password.build />
-
-      <FormTemplate.component
-        name={"form"}
-        fields={[
-          {
-            name: "email",
-            type: "input",
-            props: {
-              placeholder: "E-mail"
-            },
-            validate: [{ name: "required", message: "O E-mail é obrigatoria" }]
-          }
-        ]}
-        onSubmit={e => console.log("E", e)}
-      />
     </div>
   </Provider>
 );

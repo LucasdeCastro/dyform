@@ -21,9 +21,11 @@ export const mapValidators = baseValidators => validator => {
   throw new Error("validator should be a function or object");
 };
 
-export const workflowFinder = (value, field) => item => {
-  if (typeof item === "function") return item(value, field);
-  return item === value[field.key];
+export const workflowFinder = (value, field) => predicate => {
+  if (typeof predicate === "function") {
+    return predicate(value, field);
+  }
+  return predicate === value[field.key];
 };
 
 export const mapFields = (baseFields, baseValidators) => field => {
@@ -39,10 +41,7 @@ export const mapFields = (baseFields, baseValidators) => field => {
         );
       }
 
-      return {
-        ...group,
-        component: baseFields[group.type]
-      };
+      return mapFields(baseFields, baseValidators)(group);
     });
   }
 
@@ -68,20 +67,16 @@ export const reducerWorkflows = (
   fields,
   baseComponents,
   baseValidators,
-  saveFieldName,
   [workflow, ...workflows]
 ) => {
   if (!workflow) return fields;
   const { name, values, fields: workflowFields } = workflow;
 
   const newFields = fields.reduce((state, field) => {
-    const fieldNameMatch =
-      field.fieldType === FIELD_TYPE.WORKFLOW
-        ? field.key === name
-        : field.name === name;
-
-    if (field.fieldType === FIELD_TYPE.WORKFLOW) saveFieldName(field.key);
-    else saveFieldName(field.name);
+    const isWorkflow = field.fieldType === FIELD_TYPE.WORKFLOW;
+    const fieldNameMatch = isWorkflow
+      ? field.key === name
+      : field.name === name;
 
     if (fieldNameMatch) {
       return state.concat(field, {
@@ -92,7 +87,6 @@ export const reducerWorkflows = (
           workflowFields.map(mapFields(baseComponents, baseValidators)),
           baseComponents,
           baseValidators,
-          saveFieldName,
           workflows
         )
       });
@@ -101,11 +95,5 @@ export const reducerWorkflows = (
     return state.concat(field);
   }, []);
 
-  return reducerWorkflows(
-    newFields,
-    baseComponents,
-    baseValidators,
-    saveFieldName,
-    workflows
-  );
+  return reducerWorkflows(newFields, baseComponents, baseValidators, workflows);
 };
