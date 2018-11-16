@@ -1,100 +1,102 @@
-import React, { createFactory } from "react";
-import { connect } from "react-redux";
-import { reduxForm, formValueSelector } from "redux-form";
-import FormComponent from "./FormComponent";
-import { compose, mapFields, reducerWorkflows } from "./utils";
+import React, { createFactory } from 'react'
+import { connect } from 'react-redux'
+import { reduxForm, formValueSelector } from 'redux-form'
+import FormComponent from './FormComponent'
+import { compose, mapFields, reducerWorkflows } from './utils'
 
 class Form {
   constructor(formName, baseComponents, baseButtons, baseValidators) {
-    this._names = [];
-    this._fields = [];
-    this._initialValues = {};
-    this._clearButton = false;
+    this._names = []
+    this._fields = []
+    this._initialValues = {}
+    this._clearButton = false
 
-    this.name = formName;
-    this.baseButtons = { ...baseButtons };
-    this.baseComponents = baseComponents;
-    this.baseValidators = baseValidators;
+    this.name = formName
+    this.baseButtons = { ...baseButtons }
+    this.baseComponents = baseComponents
+    this.baseValidators = baseValidators
 
     this._onSubmit = () => {
-      throw new Error("onSubmit action is not defined");
-    };
+      throw new Error('onSubmit action is not defined')
+    }
   }
 
   _saveFieldName = name => {
     if (!this._names.includes(name)) {
-      return this._names.push(name);
+      return this._names.push(name)
     }
-    throw new Error(`field name(${name}) must be unique`);
-  };
+    throw new Error(`field name(${name}) must be unique`)
+  }
 
   addField = field => {
-    if (!field.type) throw new Error("type should not be empty");
-    if (!field.name) throw new Error("name should not be empty");
-    this._saveFieldName(field.name);
+    if (!field.type) throw new Error('type should not be empty')
+    if (!field.name) throw new Error('name should not be empty')
+    this._saveFieldName(field.name)
 
     if (field.group) {
       field.group.forEach(
         fieldGroup => fieldGroup.name && this._saveFieldName(fieldGroup.name)
-      );
+      )
     }
 
     this._fields.push(
       mapFields(this.baseComponents, this.baseValidators)(field)
-    );
-    return this;
-  };
+    )
+    return this
+  }
 
   fields = (...fields) => {
-    fields.forEach(this.addField);
-    return this;
-  };
+    fields.forEach(this.addField)
+    return this
+  }
 
   onSubmit = handleSubmit => {
-    this._onSubmit = handleSubmit;
-    return this;
-  };
+    this._onSubmit = handleSubmit
+    return this
+  }
 
   clearButton = fn => {
-    if (fn) this.baseButtons.clear = fn;
+    if (fn) this.baseButtons.clear = fn
 
-    if (!this.baseButtons.clear) throw new Error("Clear button is not defined");
+    if (!this.baseButtons.clear) throw new Error('Clear button is not defined')
 
-    this._clearButton = true;
-    return this;
-  };
+    this._clearButton = true
+    return this
+  }
 
   workflow = workflow => {
-    const workflowArr = Array.isArray(workflow) ? workflow : [workflow];
+    const workflowArr = Array.isArray(workflow) ? workflow : [workflow]
     workflowArr
       .reduce((acc, wok) => {
-        const result = wok.fields.filter(wokFiel => !!wokFiel.group);
-        return result.length > 0 ? acc.concat(result) : acc;
+        const result = wok.fields.filter(wokFiel => !!wokFiel.group)
+        return result.length > 0 ? acc.concat(result) : acc
       }, [])
       .map(
         fieldGroup => fieldGroup.name && this._saveFieldName(fieldGroup.name)
-      );
+      )
 
     this._fields = reducerWorkflows(
       this._fields,
       this.baseComponents,
       this.baseValidators,
       workflowArr
-    );
-    return this;
-  };
+    )
+    return this
+  }
 
   setInitialValues = obj => {
-    this._initialValues = obj;
-    return this;
-  };
+    this._initialValues = obj
+    return this
+  }
 
   getFields = () => {
-    return this._fields.concat();
-  };
+    return this._fields.concat()
+  }
 
   build = () => {
-    const formSelector = formValueSelector(this.name);
+    if (this._build) return this._build
+
+    const formSelector = formValueSelector(this.name)
     const formEnhance = compose(
       BaseComponent => props =>
         createFactory(BaseComponent)({
@@ -105,9 +107,9 @@ class Form {
       connect(state => ({
         values: formSelector(state, ...this._names) || {}
       }))
-    );
+    )
 
-    const Builded = formEnhance(props => (
+    return (this._build = formEnhance(props => (
       <FormComponent
         {...props}
         formName={this.name}
@@ -116,10 +118,8 @@ class Form {
         buttons={this.baseButtons}
         showClearButton={this._clearButton}
       />
-    ));
-
-    return <Builded />;
-  };
+    )))
+  }
 }
 
-export default Form;
+export default Form

@@ -1,3 +1,31 @@
-### DyForm
+# dy-form
 
-DyForm is an abstraction for dynamically creating forms. redux and redux-form was used to manage the state of the forms.
+> 
+
+[![NPM](https://img.shields.io/npm/v/dy-form.svg)](https://www.npmjs.com/package/dy-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+## Install
+
+```bash
+npm install --save dy-form
+```
+
+## Usage
+
+```jsx
+import React, { Component } from 'react'
+
+import MyComponent from 'dy-form'
+
+class Example extends Component {
+  render () {
+    return (
+      <MyComponent />
+    )
+  }
+}
+```
+
+## License
+
+MIT © [LucasdeCastro](https://github.com/LucasdeCastro)
