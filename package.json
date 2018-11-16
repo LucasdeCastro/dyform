@@ -25,5 +25,18 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "description": "DyForm is an abstraction for dynamically creating forms. redux and redux-form was used to manage the state of the forms.",
+  "main": "DyForm.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasdeCastro/dyform.git"
+  },
+  "author": "lucas de castro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LucasdeCastro/dyform/issues"
+  },
+  "homepage": "https://github.com/LucasdeCastro/dyform#readme"
 }

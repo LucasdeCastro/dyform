@@ -94,7 +94,6 @@ class Form {
   };
 
   build = () => {
-    console.log(this._names);
     const formSelector = formValueSelector(this.name);
     const formEnhance = compose(
       BaseComponent => props =>

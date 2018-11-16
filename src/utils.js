@@ -15,17 +15,17 @@ export const mapValidators = baseValidators => validator => {
 
     if (baseValidators[validator.name])
       return baseValidators[validator.name](validator.message);
-    else if (!validator.message)
-      throw new Error(`the validator named ${validator.name} not exist`);
+
+    throw new Error(`the validator named ${validator.name} not exist`);
   }
   throw new Error("validator should be a function or object");
 };
 
-export const workflowFinder = (value, field) => predicate => {
+export const workflowFinder = (values, field) => predicate => {
   if (typeof predicate === "function") {
-    return predicate(value, field);
+    return predicate(values, field);
   }
-  return predicate === value[field.key];
+  return predicate === values[field.key];
 };
 
 export const mapFields = (baseFields, baseValidators) => field => {
