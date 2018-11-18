@@ -10,20 +10,116 @@
 npm install --save dy-form
 ```
 
+#### or
+
+
+```bash
+yarn add dy-form
+```
+
 ## Usage
 
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'dy-form'
+import DyForm from 'dy-form'
 
 class Example extends Component {
   render () {
     return (
-      <MyComponent />
+      <DyForm.build
+        name={"example_form"}
+        fields={[
+          {
+            name: "name",
+            type: "input",
+            props: { placeholder: "Nome" }
+          },
+          {
+            name: "value",
+            type: "input",
+            props: { placeholder: "Valor" },
+            validate: [
+              { name: "onlyNumber", message: "Esse campo só pode ter números" }
+            ]
+          },
+          {
+            name: "type",
+            type: "select",
+            props: {
+              placeholder: "Tipo",
+              options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
+            }
+          }
+        ]}
+        workflows={[
+          {
+            name: "times",
+            type: "input",
+            props: {
+              placeholder: "Em quantas vezes?"
+            },
+            validate: [
+              { name: "onlyNumber", message: "Esse campo só pode ter números" }
+            ]
+          }
+        ]}
+        onSubmit={form => console.log("SUBMIT FORM", form)}
+      />
     )
   }
 }
+```
+
+## With chaining
+
+```javascript
+const Expenses = Form.create("expenses")
+  .fields(
+    {
+      name: "name",
+      type: "input",
+      props: { placeholder: "Nome" }
+    },
+    {
+      name: "value",
+      type: "input",
+      props: { placeholder: "Valor" },
+      validate: [
+        { name: "onlyNumber", message: "Esse campo só pode ter números" }
+      ]
+    },
+    {
+      name: "type",
+      type: "select",
+      props: {
+        placeholder: "Tipo",
+        options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
+      }
+    }
+  )
+  .workflow({
+    name: "type",
+    values: ["P"],
+    fields: [
+      {
+        name: "times",
+        type: "input",
+        props: {
+          placeholder: "Em quantas vezes?"
+        },
+        validate: [
+          { name: "onlyNumber", message: "Esse campo só pode ter números" }
+        ]
+      }
+    ]
+  })
+  .setSubmitButtonProps({ label: "Add novo gasto" });
+```
+
+```javascript
+  // Render
+  <Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
 
 ## License
