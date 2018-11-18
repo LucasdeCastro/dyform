@@ -9,6 +9,7 @@ class Form {
     this._names = []
     this._fields = []
     this._initialValues = {}
+    this._submitButtonProps = {}
     this._clearButton = false
 
     this.name = formName
@@ -93,15 +94,24 @@ class Form {
     return this._fields.concat()
   }
 
-  build = () => {
-    if (this._build) return this._build
+  setSubmitButtonProps = props => {
+    this._submitButtonProps = props
+    return this
+  }
+
+  build = ({
+    onSubmit = this._onSubmit,
+    initialValues = this._initialValues
+  }) => {
+    const BuildInstance = this._build
+    if (this._build) return <BuildInstance />
 
     const formSelector = formValueSelector(this.name)
     const formEnhance = compose(
       BaseComponent => props =>
         createFactory(BaseComponent)({
           ...props,
-          initialValues: this._initialValues
+          initialValues
         }),
       reduxForm({ form: this.name }),
       connect(state => ({
@@ -109,16 +119,20 @@ class Form {
       }))
     )
 
-    return (this._build = formEnhance(props => (
+    this._build = formEnhance(props => (
       <FormComponent
         {...props}
         formName={this.name}
         fields={this.getFields()}
-        onSubmit={this._onSubmit}
+        onSubmit={onSubmit}
         buttons={this.baseButtons}
         showClearButton={this._clearButton}
+        submitButtonProps={this._submitButtonProps}
       />
-    )))
+    ))
+
+    const NewBuildInstance = this._build
+    return <NewBuildInstance />
   }
 }
 

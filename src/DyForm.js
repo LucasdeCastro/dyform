@@ -21,13 +21,7 @@ class DyForm {
     return new Form(name, this.components, this.buttons, this.validators)
   }
 
-  component = ({
-    name,
-    fields = [],
-    workflows = [],
-    inititalValues,
-    onSubmit
-  }) => {
+  build = ({ name, fields = [], workflows = [], inititalValues, onSubmit }) => {
     const FormX = new Form(name, this.components, this.buttons, this.validators)
     if (fields.length > 0) FormX.fields(...fields)
     if (workflows.length > 0) {
