@@ -10,9 +10,13 @@ export const mapValidators = baseValidators => validator => {
   if (typeof validator === 'function') return validator
   if (typeof validator === 'object') {
     if (!validator.name) throw new Error('validator must have a prop name')
-    if (!validator.message) { throw new Error('validator must have a prop message') }
+    if (!validator.message) {
+      throw new Error('validator must have a prop message')
+    }
 
-    if (baseValidators[validator.name]) { return baseValidators[validator.name](validator.message) }
+    if (baseValidators[validator.name]) {
+      return baseValidators[validator.name](validator.message)
+    }
 
     throw new Error(`the validator named ${validator.name} not exist`)
   }
@@ -44,7 +48,9 @@ export const mapFields = (baseFields, baseValidators) => field => {
   }
 
   if (!field.component) {
-    if (!baseFields[field.type]) { throw new Error(`The field type(${field.type}) not exist`) }
+    if (!baseFields[field.type]) {
+      throw new Error(`The field type(${field.type}) not exist`)
+    }
     return {
       ...field,
       fieldType,
@@ -68,6 +74,10 @@ export const reducerWorkflows = (
 ) => {
   if (!workflow) return fields
   const { name, values, fields: workflowFields } = workflow
+
+  if (!name) throw new Error('workflow must have a prop name')
+  if (!values) throw new Error('workflow must have a prop values')
+  if (!fields) throw new Error('workflow must have a prop fields')
 
   const newFields = fields.reduce((state, field) => {
     const isWorkflow = field.fieldType === FIELD_TYPE.WORKFLOW
