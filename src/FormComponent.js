@@ -11,7 +11,7 @@ const FormComponent = ({
   handleSubmit,
   showClearButton,
   submitButtonProps,
-  ...rest
+  ...props
 }) => {
   const { result: filedsResult } = fields.reduce(fieldsReducer, {
     formName,
@@ -20,10 +20,12 @@ const FormComponent = ({
   })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(form => onSubmit(form, { reset, ...props }))}>
       {filedsResult}
       {showClearButton && buttons.clear && buttons.clear(reset)}
-      {buttons && buttons.submit && buttons.submit(submitButtonProps)}
+      {buttons &&
+        buttons.submit &&
+        buttons.submit({ reset, ...props, ...submitButtonProps })}
     </form>
   )
 }
