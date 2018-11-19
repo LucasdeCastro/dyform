@@ -20,8 +20,10 @@ yarn add dy-form
 
 ## Usage
 
+First create an instance of DyForm
+
 ```jsx
-import React, { Component } from "react";
+
 import DyForm from "dy-form";
 import { CustomInputRender, CustomCheckboxRender } from "./components"
 
@@ -30,6 +32,17 @@ const Form = new DyForm(
   { submit: button, clear: button },
   { isRequired: message => value => !!value || message }
 )
+
+export default Form;
+```
+
+That instance have two method to create a form: build and create 
+
+#### Example with the build method
+
+```jsx
+import React, { Component } from "react";
+import Form from "./Form"
 
 class Example extends Component {
   render() {
@@ -81,7 +94,7 @@ class Example extends Component {
 }
 ```
 
-## With chaining
+#### Example with create method
 
 ```javascript
 const Expenses = Form.create("expenses")
