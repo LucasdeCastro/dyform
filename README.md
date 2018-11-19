@@ -22,13 +22,19 @@ yarn add dy-form
 
 ```jsx
 import React, { Component } from "react";
-
 import DyForm from "dy-form";
+import { CustomInputRender, CustomCheckboxRender } from "./components"
+
+const Form = new DyForm(
+  { input: CustomInputRender, checkbox: CustomCheckboxRender }, 
+  { submit: button, clear: button },
+  { isRequired: message => value => !!value || message }
+)
 
 class Example extends Component {
   render() {
     return (
-      <DyForm.build
+      <Form.build
         name={"example_form"}
         fields={[
           {
