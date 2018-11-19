@@ -122,6 +122,11 @@ const Expenses = Form.create("expenses")
   <Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST: START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## License
 
 MIT © [LucasdeCastro](https://github.com/LucasdeCastro)
