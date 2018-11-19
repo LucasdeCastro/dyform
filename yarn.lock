@@ -666,6 +666,13 @@
     "@babel/plugin-transform-react-jsx-self" "^7.0.0"
     "@babel/plugin-transform-react-jsx-source" "^7.0.0"
 
+"@babel/runtime@^7.1.2":
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.5.tgz#4170907641cf1f61508f563ece3725150cc6fe39"
+  integrity sha512-xKnPpXG/pvK1B90JkwwxSGii90rQGKtzcMt2gI5G6+M0REXaq6rOHsGC2ay6/d0Uje7zzvSzjEzfR3ENhFlrfA==
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@babel/template@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.44.tgz#f8832f4fdcee5d59bf515e595fc5106c529b394f"
@@ -2623,22 +2630,6 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
-
-chokidar@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
-  integrity sha1-eY5ol3gVHIB2tLNg5e3SjNortGg=
-  dependencies:
-    anymatch "^1.3.0"
-    async-each "^1.0.0"
-    glob-parent "^2.0.0"
-    inherits "^2.0.1"
-    is-binary-path "^1.0.0"
-    is-glob "^2.0.0"
-    path-is-absolute "^1.0.0"
-    readdirp "^2.0.0"
-  optionalDependencies:
-    fsevents "^1.0.0"
 
 chokidar@^2.0.0, chokidar@^2.0.2:
   version "2.0.4"
@@ -4687,7 +4678,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
-fsevents@^1.0.0, fsevents@^1.1.3, fsevents@^1.2.2:
+fsevents@^1.1.3, fsevents@^1.2.2:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
   integrity sha512-z8H8/diyk76B7q5wg+Ud0+CqzcAF3mBBI/bA5ne5zrRUUIvNkJY//D3BqyH571KuAC4Nr7Rw7CjWX4r0y9DvNg==
@@ -5081,6 +5072,13 @@ hoist-non-react-statics@^2.5.4:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
+
+hoist-non-react-statics@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.1.0.tgz#42414ccdfff019cd2168168be998c7b3bd5245c0"
+  integrity sha512-MYcYuROh7SBM69xHGqXEwQqDux34s9tz+sCnxJmN18kgWh6JFdTw/5YdZtqsOdZJXddE/wUpCzfEdDrJj8p0Iw==
+  dependencies:
+    react-is "^16.3.2"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -8167,10 +8165,28 @@ react-error-overlay@^4.0.1:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.1.tgz#417addb0814a90f3a7082eacba7cee588d00da89"
   integrity sha512-xXUbDAZkU08aAkjtUvldqbvI04ogv+a1XdHxvYuHPYKIVk/42BIOD0zSKTHAWV4+gDy3yGm283z2072rA2gdtw==
 
-react-lifecycles-compat@^3.0.4:
+react-is@^16.3.2, react-is@^16.6.0:
+  version "16.6.3"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.3.tgz#d2d7462fcfcbe6ec0da56ad69047e47e56e7eac0"
+  integrity sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
+
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-redux@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.1.1.tgz#88e368682c7fa80e34e055cd7ac56f5936b0f52f"
+  integrity sha512-LE7Ned+cv5qe7tMV5BPYkGQ5Lpg8gzgItK07c67yHvJ8t0iaD9kPFPAli/mYkiyJYrs2pJgExR2ZgsGqlrOApg==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    hoist-non-react-statics "^3.1.0"
+    invariant "^2.2.4"
+    loose-envify "^1.1.0"
+    prop-types "^15.6.1"
+    react-is "^16.6.0"
+    react-lifecycles-compat "^3.0.0"
 
 react-scripts@^1.1.4:
   version "1.1.5"
@@ -8363,6 +8379,11 @@ regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
+  integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
@@ -8564,11 +8585,6 @@ require-main-filename@^1.0.1:
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
   integrity sha1-l/cXtp1IeE9fUmpsWqj/3aBVpNE=
 
-require-relative@0.8.7:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/require-relative/-/require-relative-0.8.7.tgz#7999539fc9e047a37928fa196f8e1563dabd36de"
-  integrity sha1-eZlTn8ngR6N5KPoZb44VY9q9Nt4=
-
 require-uncached@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/require-uncached/-/require-uncached-1.0.3.tgz#4e0d56d6c9662fd31e43011c4b95aa49955421d3"
@@ -8747,15 +8763,6 @@ rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.1, rollup-pluginutils@^2.3.3:
   dependencies:
     estree-walker "^0.5.2"
     micromatch "^2.3.11"
-
-rollup-watch@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/rollup-watch/-/rollup-watch-4.3.1.tgz#5aa1eaeab787addf368905d102b39d6fc5ce4a8b"
-  integrity sha512-6yjnIwfjpSrqA8IafyIu7fsEyeImNR4aDjA1bQ7KWeVuiA+Clfsx8+PGQkyABWIQzmauQ//tIJ5wAxLXsXs8qQ==
-  dependencies:
-    chokidar "^1.7.0"
-    require-relative "0.8.7"
-    rollup-pluginutils "^2.0.1"
 
 rollup@^0.64.1:
   version "0.64.1"
