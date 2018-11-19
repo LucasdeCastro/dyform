@@ -147,6 +147,68 @@ const Expenses = Form.create("expenses")
 <Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
 
+
+### DyForm
+
+The class DyForm receive three params: 
+  * First is an object with the components
+  * Second is an object with the buttons
+  * Third is an object with the validators
+
+```javascript
+  new DyForm(
+    { input: CustomInputRender, checkbox: CustomCheckboxRender }, 
+    { submit: button, clear: button },
+    { isRequired: message => value => !!value || message }
+  )
+```
+
+### Fields
+
+The field is an object and must have a name, type and validation, and any other parameter will be passed to the component. name and type are both required
+
+
+##### The type field is a key for the component that must be rendered
+
+```javascript
+{
+  name: "name",
+  type: "input",
+  validate: [
+    { name: "onlyNumber", message: "Esse campo só pode ter números" }
+  ],
+  props: { placeholder: "Nome" }
+}
+```
+
+Field also has a prop group which is an array of fields
+
+When the field have a group  the component it will receive as prop a list of fields, if group components have a key the values will be storage as key value, like a checkboxlist
+
+```javascript
+{
+  name: "chips",
+  type: "container",
+  group: [
+    { name: "doritos", key: "D", type: "checkbox" },
+    { name: "ruffles", key: "R", type: "checkbox" }
+  ]
+}
+```
+
+When the group components don't have a key prop the value will be stored only the last selected value. like a radio button
+
+```javascript
+{
+  name: "favorite",
+  type: "container",
+  group: [
+    { name: "doritos", type: "checkbox" },
+    { name: "ruffles", type: "checkbox" }
+  ]
+}
+```
+
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
