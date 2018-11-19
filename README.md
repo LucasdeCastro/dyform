@@ -1,6 +1,8 @@
 # dy-form
 
-> 
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+
+>
 
 [![NPM](https://img.shields.io/npm/v/dy-form.svg)](https://www.npmjs.com/package/dy-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -12,7 +14,6 @@ npm install --save dy-form
 
 #### or
 
-
 ```bash
 yarn add dy-form
 ```
@@ -20,12 +21,12 @@ yarn add dy-form
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import DyForm from 'dy-form'
+import DyForm from "dy-form";
 
 class Example extends Component {
-  render () {
+  render() {
     return (
       <DyForm.build
         name={"example_form"}
@@ -48,7 +49,10 @@ class Example extends Component {
             type: "select",
             props: {
               placeholder: "Tipo",
-              options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
+              options: [
+                { value: "Fixa", key: "F" },
+                { value: "Prazo", key: "P" }
+              ]
             }
           }
         ]}
@@ -66,7 +70,7 @@ class Example extends Component {
         ]}
         onSubmit={form => console.log("SUBMIT FORM", form)}
       />
-    )
+    );
   }
 }
 ```
@@ -118,13 +122,16 @@ const Expenses = Form.create("expenses")
 ```
 
 ```javascript
-  // Render
-  <Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
+// Render
+<Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
 
 ## Contributors
 
-<!-- ALL-CONTRIBUTORS-LIST: START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars1.githubusercontent.com/u/7875365?v=4" width="100px;"/><br /><sub><b>Lucas de Castro</b></sub>](https://github.com/LucasdeCastro)<br />[💻](https://github.com/LucasdeCastro/dyform/commits?author=LucasdeCastro "Code") [📖](https://github.com/LucasdeCastro/dyform/commits?author=LucasdeCastro "Documentation") |
+| :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
