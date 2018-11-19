@@ -6,6 +6,8 @@
 
 [![NPM](https://img.shields.io/npm/v/dy-form.svg)](https://www.npmjs.com/package/dy-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+DyForm is an abstraction for dynamically creating forms. redux and redux-form was used to manage the state of the forms.
+
 ## Install
 
 ```bash
