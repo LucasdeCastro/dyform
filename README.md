@@ -31,7 +31,7 @@ import { CustomInputRender } from "./components"
 
 const Form = new DyForm(
   { CustomInputRender }, 
-  { submit: button, clear: button },
+  { submit: CustomButton, clear: CustomButton },
   { isRequired: message => value => !!value || message }
 )
 
@@ -167,48 +167,12 @@ export const CustomButton = ({ label, isSubmit = true, pristine, submitting }) =
 
 Field is a map with some properties that will be used to create an instance of a component.
 
-The type property is who will define which component will be used
-
-Field recives as properties a name(riquired), type(riquired), validate
-
-```javascript
-{
-  name: "name",
-  type: "CustomInputRender",
-  validate: [
-    { name: "onlyNumber", message: "Esse campo só pode ter números" }
-  ],
-  props: { placeholder: "Nome" }
-}
-```
-
-Field also has a prop group which is an array of fields
-
-When Field map has a property group the component it will receive as prop a list of fields, if fields inside group property has a key the values will be storage as key value, like a checkboxlist
-
-```javascript
-{
-  name: "chips",
-  type: "container",
-  group: [
-    { name: "doritos", key: "D", type: "checkbox" },
-    { name: "ruffles", key: "R", type: "checkbox" }
-  ]
-}
-```
-
-When the group components don't have a key prop the value will be stored only the last selected value. like a radio button
-
-```javascript
-{
-  name: "favorite",
-  type: "container",
-  group: [
-    { name: "doritos", type: "checkbox" },
-    { name: "ruffles", type: "checkbox" }
-  ]
-}
-```
+Property | Required | Type | Example | Note
+--- | --- | --- | --- | ---
+name | true | string | |
+type | true | string | | The type property is who will define which component will be used as template
+validate | false | Array | ``` [{ name: "required", message: "required" }] ``` | validator should be an object or function
+group | false | Array | | Group is an array of fields with an optional property key and when that property has a value the fields values will be storage as key value
 
 ## Contributors
 
