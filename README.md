@@ -139,7 +139,7 @@ The class DyForm receive three params:
 ```javascript
   new DyForm(
     { CustomInputRender }, 
-    { submit: button, clear: button },
+    { submit: CustomButton, clear: CustomButton },
     { isRequired: message => value => !!value || message }
   )
 ```
@@ -154,6 +154,13 @@ export const CustomInputRender = ({ input, meta: { error }, placeholder }) => (
     {error && <strong>{error}</strong>}
   </div>
 );
+
+export const CustomButton = ({ label, isSubmit = true, pristine, submitting }) => (
+    <Button disabled={pristine || submitting} type={isSubmit ? "submit" : "Button"}>
+      {label}
+    </Button>
+  )
+}
 ```
 
 ### Field
