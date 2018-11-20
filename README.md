@@ -27,7 +27,7 @@ First create an instance of DyForm
 ```jsx
 
 import DyForm from "dy-form";
-import { CustomInputRender, CustomCheckboxRender } from "./components"
+import { CustomInputRender } from "./components"
 
 const Form = new DyForm(
   { CustomInputRender }, 
