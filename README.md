@@ -30,7 +30,7 @@ import DyForm from "dy-form";
 import { CustomInputRender, CustomCheckboxRender } from "./components"
 
 const Form = new DyForm(
-  { input: CustomInputRender, checkbox: CustomCheckboxRender }, 
+  { CustomInputRender }, 
   { submit: button, clear: button },
   { isRequired: message => value => !!value || message }
 )
@@ -38,7 +38,7 @@ const Form = new DyForm(
 export default Form;
 ```
 
-That instance have two method to create a form: build and create 
+That instance has two methods to create a form: build and create 
 
 #### Example with the build method
 
@@ -54,33 +54,22 @@ class Example extends Component {
         fields={[
           {
             name: "name",
-            type: "input",
+            type: "CustomInputRender",
             props: { placeholder: "Nome" }
           },
           {
             name: "value",
-            type: "input",
+            type: "CustomInputRender",
             props: { placeholder: "Valor" },
             validate: [
               { name: "onlyNumber", message: "Esse campo só pode ter números" }
             ]
-          },
-          {
-            name: "type",
-            type: "select",
-            props: {
-              placeholder: "Tipo",
-              options: [
-                { value: "Fixa", key: "F" },
-                { value: "Prazo", key: "P" }
-              ]
-            }
           }
         ]}
         workflows={[
           {
             name: "times",
-            type: "input",
+            type: "CustomInputRender",
             props: {
               placeholder: "Em quantas vezes?"
             },
@@ -103,24 +92,16 @@ const Expenses = Form.create("expenses")
   .fields(
     {
       name: "name",
-      type: "input",
+      type: "CustomInputRender",
       props: { placeholder: "Nome" }
     },
     {
       name: "value",
-      type: "input",
+      type: "CustomInputRender",
       props: { placeholder: "Valor" },
       validate: [
         { name: "onlyNumber", message: "Esse campo só pode ter números" }
       ]
-    },
-    {
-      name: "type",
-      type: "select",
-      props: {
-        placeholder: "Tipo",
-        options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
-      }
     }
   )
   .workflow({
@@ -129,7 +110,7 @@ const Expenses = Form.create("expenses")
     fields: [
       {
         name: "times",
-        type: "input",
+        type: "CustomInputRender",
         props: {
           placeholder: "Em quantas vezes?"
         },
@@ -157,23 +138,36 @@ The class DyForm receive three params:
 
 ```javascript
   new DyForm(
-    { input: CustomInputRender, checkbox: CustomCheckboxRender }, 
+    { CustomInputRender }, 
     { submit: button, clear: button },
     { isRequired: message => value => !!value || message }
   )
 ```
 
-### Fields
+Example of component
 
-The field is an object and must have a name, type and validation, and any other parameter will be passed to the component. name and type are both required
+```jsx
+export const CustomInputRender = ({ input, meta: { error }, placeholder }) => (
+  <div>
+    <label>{placeholder}</label>
+    <input {...input} />
+    {error && <strong>{error}</strong>}
+  </div>
+);
+```
 
+### Field
 
-##### The type field is a key for the component that must be rendered
+Field is a map with some properties that will be used to create an instance of a component.
+
+The type property is who will define which component will be used
+
+Field recives as properties a name(riquired), type(riquired), validate
 
 ```javascript
 {
   name: "name",
-  type: "input",
+  type: "CustomInputRender",
   validate: [
     { name: "onlyNumber", message: "Esse campo só pode ter números" }
   ],
@@ -183,7 +177,7 @@ The field is an object and must have a name, type and validation, and any other 
 
 Field also has a prop group which is an array of fields
 
-When the field have a group  the component it will receive as prop a list of fields, if group components have a key the values will be storage as key value, like a checkboxlist
+When Field map has a property group the component it will receive as prop a list of fields, if fields inside group property has a key the values will be storage as key value, like a checkboxlist
 
 ```javascript
 {
