@@ -11,6 +11,8 @@ class Form {
     this._initialValues = {}
     this._submitButtonProps = {}
     this._clearButton = false
+    this._persist = false
+    this._reinitialize = false
 
     this.name = formName
     this.baseButtons = { ...baseButtons }
@@ -65,7 +67,7 @@ class Form {
     return this
   }
 
-  workflow = workflow => {
+  workflows = workflow => {
     const workflowArr = Array.isArray(workflow) ? workflow : [workflow]
     workflowArr
       .reduce((acc, wok) => {
@@ -99,21 +101,37 @@ class Form {
     return this
   }
 
+  persist(persist = true) {
+    this._persist = persist
+    return this
+  }
+
+  reinitialize(reinitialize) {
+    this._reinitialize = reinitialize
+    return this
+  }
+
   build = ({
     onSubmit = this._onSubmit,
     initialValues = this._initialValues
   }) => {
     const BuildInstance = this._build
-    if (this._build) return <BuildInstance />
+    if (this._build) {
+      return <BuildInstance onSubmit={onSubmit} initialValues={initialValues} />
+    }
 
     const formSelector = formValueSelector(this.name)
     const formEnhance = compose(
       BaseComponent => props =>
         createFactory(BaseComponent)({
-          ...props,
-          initialValues
+          initialValues,
+          ...props
         }),
-      reduxForm({ form: this.name }),
+      reduxForm({
+        form: this.name,
+        destroyOnUnmount: this._persist,
+        enableReinitialize: this._reinitialize
+      }),
       connect(state => ({
         values: formSelector(state, ...this._names) || {}
       }))
@@ -121,13 +139,13 @@ class Form {
 
     this._build = formEnhance(props => (
       <FormComponent
-        {...props}
         formName={this.name}
         fields={this.getFields()}
         onSubmit={onSubmit}
         buttons={this.baseButtons}
         showClearButton={this._clearButton}
         submitButtonProps={this._submitButtonProps}
+        {...props}
       />
     ))
 
