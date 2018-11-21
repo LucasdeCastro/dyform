@@ -6,7 +6,7 @@
 
 [![NPM](https://img.shields.io/npm/v/dy-form.svg)](https://www.npmjs.com/package/dy-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-DyForm is an abstraction for dynamically creating forms. redux and redux-form was used to manage the state of the forms.
+DyForm is an abstraction for dynamically creating forms or just another way to user some features of redux-form.
 
 ## Install
 
@@ -173,6 +173,75 @@ name | true | string | |
 type | true | string | | The type property is who will define which component will be used as template
 validate | false | Array | ``` [{ name: "required", message: "required" }] ``` | validator should be an object or function
 group | false | Array | | Group is an array of fields with an optional property key and when that property has a value the fields values will be storage as key value
+
+## Methods
+
+#### <a id='fields'></a>[`fields(...fieldsList)`](#fields)
+
+#### <a id='workflows'></a>[`workflows(...workflowList)`](#workflows)
+
+#### <a id='build'></a>[`build(props)`](#build)
+
+#### <a id='onSubmit'></a>[`onSubmit(submitFunction)`](#onSubmit)
+
+#### <a id='clearButton'></a>[`clearButton(buttonComponent?)`](#clearButton)
+
+#### <a id='setInitialValues'></a>[`setInitialValues(intialvalues)`](#setInitialValues)
+
+Define initial values
+
+##### Arguments
+
+_(Object)_: This object will be passed as form initial values.
+
+##### Returns
+
+_(Form)_: Form instance
+
+#### <a id='setSubmitButtonProps'></a>[`setSubmitButtonProps(props)`](#setSubmitButtonProps)
+
+This method allow to pass props to submit button
+
+##### Arguments
+
+_(Object)_: This object will be passed as props to submit button.
+
+### Returns
+
+_(Form)_: Form instance
+
+#### <a id='persist'></a>[`persist(flag)`](#persist)
+
+Whether or not to automatically destroy your form's state in the Redux store when your component is unmounted. Defaults to false.
+
+##### Arguments
+
+_(boolean)_ [optional]
+
+##### Returns
+
+_(Form)_: Form instance
+
+#### <a id='reinitialize'></a>[`reinitialize(flag)`](#reinitialize)
+
+When set to true, the form will reinitialize every time the initialValues prop changes. Defaults to false. If the keepDirtyOnReinitialize option is also set, the form will retain the value of dirty fields when reinitializing.
+
+##### Arguments
+
+_(boolean)_[optional]: that value enable or disable the reinitialize 
+
+##### Returns
+
+_(Form)_: Form instance
+
+#### <a id='getFields'></a>[`getFields`](#getFields)
+
+Returns a list of fields map
+
+##### Returns
+
+_(Array)_: Return the current list of fields
+
 
 ## Contributors
 
