@@ -188,11 +188,11 @@ group | false | Array | | Group is an array of fields with an optional property 
 
 #### <a id='setInitialValues'></a>[`setInitialValues(intialvalues)`](#setInitialValues)
 
-Define initial values
+The values with which to initialize your form in componentWillMount().
 
 ##### Arguments
 
-_(Object)_: This object will be passed as form initial values.
+_(Object)_: The values should be in the form { field1: 'value1', field2: 'value2' }
 
 ##### Returns
 
