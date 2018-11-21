@@ -6,6 +6,8 @@
 
 [![NPM](https://img.shields.io/npm/v/dy-form.svg)](https://www.npmjs.com/package/dy-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+DyForm is an abstraction for dynamically creating forms. redux and redux-form was used to manage the state of the forms.
+
 ## Install
 
 ```bash
@@ -20,46 +22,54 @@ yarn add dy-form
 
 ## Usage
 
+First create an instance of DyForm
+
 ```jsx
-import React, { Component } from "react";
 
 import DyForm from "dy-form";
+import { CustomInputRender } from "./components"
+
+const Form = new DyForm(
+  { CustomInputRender }, 
+  { submit: CustomButton, clear: CustomButton },
+  { isRequired: message => value => !!value || message }
+)
+
+export default Form;
+```
+
+That instance has two methods to create a form: build and create 
+
+#### Example with the build method
+
+```jsx
+import React, { Component } from "react";
+import Form from "./Form"
 
 class Example extends Component {
   render() {
     return (
-      <DyForm.build
+      <Form.build
         name={"example_form"}
         fields={[
           {
             name: "name",
-            type: "input",
+            type: "CustomInputRender",
             props: { placeholder: "Nome" }
           },
           {
             name: "value",
-            type: "input",
+            type: "CustomInputRender",
             props: { placeholder: "Valor" },
             validate: [
               { name: "onlyNumber", message: "Esse campo só pode ter números" }
             ]
-          },
-          {
-            name: "type",
-            type: "select",
-            props: {
-              placeholder: "Tipo",
-              options: [
-                { value: "Fixa", key: "F" },
-                { value: "Prazo", key: "P" }
-              ]
-            }
           }
         ]}
         workflows={[
           {
             name: "times",
-            type: "input",
+            type: "CustomInputRender",
             props: {
               placeholder: "Em quantas vezes?"
             },
@@ -75,31 +85,23 @@ class Example extends Component {
 }
 ```
 
-## With chaining
+#### Example with create method
 
 ```javascript
 const Expenses = Form.create("expenses")
   .fields(
     {
       name: "name",
-      type: "input",
+      type: "CustomInputRender",
       props: { placeholder: "Nome" }
     },
     {
       name: "value",
-      type: "input",
+      type: "CustomInputRender",
       props: { placeholder: "Valor" },
       validate: [
         { name: "onlyNumber", message: "Esse campo só pode ter números" }
       ]
-    },
-    {
-      name: "type",
-      type: "select",
-      props: {
-        placeholder: "Tipo",
-        options: [{ value: "Fixa", key: "F" }, { value: "Prazo", key: "P" }]
-      }
     }
   )
   .workflow({
@@ -108,7 +110,7 @@ const Expenses = Form.create("expenses")
     fields: [
       {
         name: "times",
-        type: "input",
+        type: "CustomInputRender",
         props: {
           placeholder: "Em quantas vezes?"
         },
@@ -125,6 +127,52 @@ const Expenses = Form.create("expenses")
 // Render
 <Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
+
+
+### DyForm
+
+The class DyForm receive three params: 
+  * First is an object with the components
+  * Second is an object with the buttons
+  * Third is an object with the validators
+
+```javascript
+  new DyForm(
+    { CustomInputRender }, 
+    { submit: CustomButton, clear: CustomButton },
+    { isRequired: message => value => !!value || message }
+  )
+```
+
+Example of component
+
+```jsx
+export const CustomInputRender = ({ input, meta: { error }, placeholder }) => (
+  <div>
+    <label>{placeholder}</label>
+    <input {...input} />
+    {error && <strong>{error}</strong>}
+  </div>
+);
+
+export const CustomButton = ({ label, isSubmit = true, pristine, submitting }) => (
+    <Button disabled={pristine || submitting} type={isSubmit ? "submit" : "Button"}>
+      {label}
+    </Button>
+  )
+}
+```
+
+### Field
+
+Field is a map with some properties that will be used to create an instance of a component.
+
+Property | Required | Type | Example | Note
+--- | --- | --- | --- | ---
+name | true | string | |
+type | true | string | | The type property is who will define which component will be used as template
+validate | false | Array | ``` [{ name: "required", message: "required" }] ``` | validator should be an object or function
+group | false | Array | | Group is an array of fields with an optional property key and when that property has a value the fields values will be storage as key value
 
 ## Contributors
 
