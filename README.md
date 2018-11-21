@@ -38,7 +38,7 @@ const Form = new DyForm(
 export default Form;
 ```
 
-That instance has two methods to create a form: build and create 
+That instance has two methods to create a form: **build** and **create** 
 
 #### Example with the build method
 
