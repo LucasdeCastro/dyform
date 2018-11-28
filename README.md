@@ -230,6 +230,14 @@ _(Form)_: Form instance
 
 #### <a id='clearButton'></a>[`clearButton(buttonComponent?)`](#clearButton)
 
+##### Arguments
+
+_(Function)_: That function should return a react component
+
+##### Returns
+
+_(Form)_: Form instance
+
 #### <a id='setInitialValues'></a>[`setInitialValues(intialvalues)`](#setInitialValues)
 
 The values with which to initialize your form in componentWillMount().
