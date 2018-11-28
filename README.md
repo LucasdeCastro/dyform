@@ -88,7 +88,7 @@ class Example extends Component {
 #### Example with create method
 
 ```javascript
-const Expenses = Form.create("expenses")
+const Example = Form.create("Example")
   .fields(
     {
       name: "name",
@@ -125,7 +125,7 @@ const Expenses = Form.create("expenses")
 
 ```javascript
 // Render
-<Expenses.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
+<Example.build onSubmit={form => console.log("SUBMIT FORM", FORM)} />
 ```
 
 
