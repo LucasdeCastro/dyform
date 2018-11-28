@@ -178,11 +178,55 @@ group | false | Array | | Group is an array of fields with an optional property 
 
 #### <a id='fields'></a>[`fields(...fieldsList)`](#fields)
 
+Recives a list of fields
+##### Arguments
+
+_(List)_: List of field map
+
+### Returns
+
+_(Form)_: Form instance
+
 #### <a id='workflows'></a>[`workflows(...workflowList)`](#workflows)
+
+Receives a list of workflow
+
+### Returns
+
+_(Form)_: Form instance
 
 #### <a id='build'></a>[`build(props)`](#build)
 
+```jsx
+  
+  render() {
+    return (
+      <h3>My Form</h3>
+      <Example.build />
+    ) 
+  }
+
+```
+
+##### Arguments
+
+_(Object)_: Object with props like initialValues and onSubmit function
+
+### Returns
+
+_(React Component)_: Component form with redux-form
+
 #### <a id='onSubmit'></a>[`onSubmit(submitFunction)`](#onSubmit)
+
+Set submit function
+
+##### Arguments
+
+_(Function)_: Function called when form submit
+
+##### Returns
+
+_(Form)_: Form instance
 
 #### <a id='clearButton'></a>[`clearButton(buttonComponent?)`](#clearButton)
 
