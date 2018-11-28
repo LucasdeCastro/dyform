@@ -183,7 +183,7 @@ Recives a list of fields
 
 _(List)_: List of field map
 
-### Returns
+##### Returns
 
 _(Form)_: Form instance
 
@@ -212,7 +212,7 @@ _(Form)_: Form instance
 
 _(Object)_: Object with props like initialValues and onSubmit function
 
-### Returns
+##### Returns
 
 _(React Component)_: Component form with redux-form
 
@@ -250,7 +250,7 @@ This method allow to pass props to submit button
 
 _(Object)_: This object will be passed as props to submit button.
 
-### Returns
+##### Returns
 
 _(Form)_: Form instance
 
