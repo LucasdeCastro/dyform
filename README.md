@@ -105,8 +105,8 @@ const Example = Form.create("Example")
     }
   )
   .workflow({
-    name: "type",
-    values: ["P"],
+    name: "name",
+    values: ["teste"],
     fields: [
       {
         name: "times",
