@@ -1,31 +1,18 @@
-import React, { createFactory } from "react";
-import { Field } from "redux-form";
-import { workflowFinder, getFieldName } from "./utils";
+import React, { createFactory } from 'react'
+import { Field } from 'redux-form'
+import { workflowFinder, getFieldName } from './utils'
 
 export const FIELD_TYPE = {
-  WORKFLOW: "workflow",
-  GROUP: "group",
-  DEFUALT: "default"
-};
+  WORKFLOW: 'workflow',
+  GROUP: 'group',
+  DEFUALT: 'default'
+}
 
 const fieldsReducer = (state, props) => {
-  const { formName, values = {}, result } = state;
-  const { fieldType, group, parentName, ...item } = props;
+  const { formName, values = {}, result } = state
+  const { fieldType, group, parentName, ...item } = props
 
   switch (fieldType) {
-    case FIELD_TYPE.WORKFLOW:
-      if (item.values.find(workflowFinder(values, item))) {
-        return {
-          ...state,
-          result: result.concat(
-            item.fields.map(
-              field => fieldsReducer({ ...state, result: [] }, field).result
-            )
-          )
-        };
-      } else {
-        return state;
-      }
     case FIELD_TYPE.GROUP:
       return {
         ...state,
@@ -43,7 +30,20 @@ const fieldsReducer = (state, props) => {
             )
           })
         )
-      };
+      }
+    case FIELD_TYPE.WORKFLOW:
+      if (item.values.find(workflowFinder(values, item))) {
+        return {
+          ...state,
+          result: result.concat(
+            item.fields.map(
+              field => fieldsReducer({ ...state, result: [] }, field).result
+            )
+          )
+        }
+      } else {
+        return state
+      }
     case FIELD_TYPE.DEFUALT:
     default:
       return {
@@ -55,8 +55,8 @@ const fieldsReducer = (state, props) => {
             name={getFieldName(props)}
           />
         )
-      };
+      }
   }
-};
+}
 
-export default fieldsReducer;
+export default fieldsReducer

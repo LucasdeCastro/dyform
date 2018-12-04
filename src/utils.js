@@ -81,7 +81,7 @@ export const reducerWorkflows = (
 
   const newFields = fields.reduce((state, field) => {
     const isWorkflow = field.fieldType === FIELD_TYPE.WORKFLOW
-    const fieldNameMatch = isWorkflow ? field.key === name : field.name === name
+    const fieldNameMatch = !isWorkflow && field.name === name
 
     if (fieldNameMatch) {
       return state.concat(field, {

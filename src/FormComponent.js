@@ -5,27 +5,24 @@ const FormComponent = ({
   reset,
   values,
   fields,
-  buttons,
+  footer,
   formName,
   onSubmit,
   handleSubmit,
+  initialValues,
   showClearButton,
-  submitButtonProps,
   ...props
 }) => {
   const { result: filedsResult } = fields.reduce(fieldsReducer, {
     formName,
-    values,
+    values: { ...initialValues, ...values },
     result: []
   })
 
   return (
     <form onSubmit={handleSubmit(form => onSubmit(form, { reset, ...props }))}>
       {filedsResult}
-      {showClearButton && buttons.clear && buttons.clear(reset)}
-      {buttons &&
-        buttons.submit &&
-        buttons.submit({ reset, ...props, ...submitButtonProps })}
+      {footer && footer({ reset, ...props })}
     </form>
   )
 }

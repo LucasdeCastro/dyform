@@ -5,17 +5,16 @@ import FormComponent from './FormComponent'
 import { compose, mapFields, reducerWorkflows } from './utils'
 
 class Form {
-  constructor(formName, baseComponents, baseButtons, baseValidators) {
+  constructor(formName, baseComponents, baseValidators) {
     this._names = []
     this._fields = []
-    this._initialValues = {}
-    this._submitButtonProps = {}
-    this._clearButton = false
+    this._footer = null
     this._persist = false
+    this._initialValues = {}
+    this._clearButton = false
     this._reinitialize = false
 
     this.name = formName
-    this.baseButtons = { ...baseButtons }
     this.baseComponents = baseComponents
     this.baseValidators = baseValidators
 
@@ -58,16 +57,7 @@ class Form {
     return this
   }
 
-  clearButton = fn => {
-    if (fn) this.baseButtons.clear = fn
-
-    if (!this.baseButtons.clear) throw new Error('Clear button is not defined')
-
-    this._clearButton = true
-    return this
-  }
-
-  workflows = workflow => {
+  workflows = (...workflow) => {
     const workflowArr = Array.isArray(workflow) ? workflow : [workflow]
     workflowArr
       .reduce((acc, wok) => {
@@ -96,11 +86,6 @@ class Form {
     return this._fields.concat()
   }
 
-  setSubmitButtonProps = props => {
-    this._submitButtonProps = props
-    return this
-  }
-
   persist(persist = true) {
     this._persist = persist
     return this
@@ -111,10 +96,18 @@ class Form {
     return this
   }
 
+  setFooter(footer) {
+    this._footer = footer
+  }
+
   build = ({
     onSubmit = this._onSubmit,
     initialValues = this._initialValues
   }) => {
+    if (!this._footer) {
+      throw new Error('Footer is required and should be a react component')
+    }
+
     const BuildInstance = this._build
     if (this._build) {
       return <BuildInstance onSubmit={onSubmit} initialValues={initialValues} />
@@ -142,9 +135,8 @@ class Form {
         formName={this.name}
         fields={this.getFields()}
         onSubmit={onSubmit}
-        buttons={this.baseButtons}
+        footer={this._footer}
         showClearButton={this._clearButton}
-        submitButtonProps={this._submitButtonProps}
         {...props}
       />
     ))

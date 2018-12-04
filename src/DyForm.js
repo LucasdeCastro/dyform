@@ -3,8 +3,7 @@ import Form from './Form'
 import defaultValidators from './Validators'
 
 class DyForm {
-  constructor(baseComponents, baseButtons, validators = {}) {
-    this.buttons = baseButtons
+  constructor(baseComponents, validators = {}) {
     this.components = baseComponents
     this.validators = { ...validators, ...defaultValidators }
   }
@@ -18,11 +17,11 @@ class DyForm {
       return instance
     }
 
-    return new Form(name, this.components, this.buttons, this.validators)
+    return new Form(name, this.components, this.validators)
   }
 
   build = ({ name, fields = [], workflows = [], inititalValues, onSubmit }) => {
-    const FormX = new Form(name, this.components, this.buttons, this.validators)
+    const FormX = new Form(name, this.components, this.validators)
     if (fields.length > 0) FormX.fields(...fields)
     if (workflows.length > 0) {
       workflows.map(workflow => FormX.workFlow(workflow))
