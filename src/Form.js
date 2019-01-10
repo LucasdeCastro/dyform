@@ -97,7 +97,13 @@ class Form {
   }
 
   setFooter(footer) {
-    this._footer = footer
+    if (footer) this._footer = footer
+    return this
+  }
+
+  showOnly(fields) {
+    this._fields = this._fields.filter(field => fields.includes(field.name))
+    return this
   }
 
   build = ({

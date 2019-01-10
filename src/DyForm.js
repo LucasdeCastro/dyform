@@ -8,7 +8,7 @@ class DyForm {
     this.validators = { ...validators, ...defaultValidators }
   }
 
-  create(name, form) {
+  create = (name, form) => {
     if (form) {
       const instance = this.create(name)
       instance._names = form._names.concat()
